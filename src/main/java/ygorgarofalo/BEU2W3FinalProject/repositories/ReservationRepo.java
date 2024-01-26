@@ -6,4 +6,6 @@ import ygorgarofalo.BEU2W3FinalProject.entities.Reservation;
 
 @Repository
 public interface ReservationRepo extends JpaRepository<Reservation, Long> {
+
+
 }

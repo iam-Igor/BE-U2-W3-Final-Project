@@ -64,18 +64,18 @@ public class EventController {
     }
 
 
-    // accessibile a tutti
-    @GetMapping("public/{title}")
-    public Event getEventByTitle(@PathVariable String title) {
-        return eventService.findByTitle(title);
-    }
-
-
-    // accessibile a tutti
-    @GetMapping("public/{location}")
-    public Event getEventByLocation(@PathVariable String location) {
-        return eventService.findByLocation(location);
-    }
+//    // accessibile a tutti
+//    @GetMapping("/public")
+//    public Event getEventByTitle(@PathVariable String title) {
+//        return eventService.findByTitle(title);
+//    }
+//
+//
+//    // accessibile a tutti
+//    @GetMapping("public/{location}")
+//    public Event getEventByLocation(@PathVariable String location) {
+//        return eventService.findByLocation(location);
+//    }
 
 
     // accessibile solo a manager

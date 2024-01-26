@@ -7,10 +7,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ygorgarofalo.BEU2W3FinalProject.entities.Reservation;
 import ygorgarofalo.BEU2W3FinalProject.entities.User;
 import ygorgarofalo.BEU2W3FinalProject.exceptions.BadRequestException;
 import ygorgarofalo.BEU2W3FinalProject.payload.UserPayloadDTO;
+import ygorgarofalo.BEU2W3FinalProject.services.AuthService;
 import ygorgarofalo.BEU2W3FinalProject.services.UserService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -18,6 +22,10 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+
+    @Autowired
+    private AuthService authService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('MANAGER')")
@@ -42,8 +50,15 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(bindingResult.getAllErrors());
         } else {
-            return userService.findByIdAndUpdate(currentUser.getId(), updatedUser);
+            return authService.findByIdAndUpdate(currentUser.getId(), updatedUser);
         }
+    }
+
+
+    // accessibile solo tramite authorization per uno user normale
+    @GetMapping("/me/reservations")
+    public List<Reservation> getAllReservationsByUser(@AuthenticationPrincipal User current) {
+        return current.getReservationList();
     }
 
 

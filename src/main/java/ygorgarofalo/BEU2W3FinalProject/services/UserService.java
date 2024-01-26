@@ -7,10 +7,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ygorgarofalo.BEU2W3FinalProject.entities.Role;
 import ygorgarofalo.BEU2W3FinalProject.entities.User;
 import ygorgarofalo.BEU2W3FinalProject.exceptions.NotFoundException;
-import ygorgarofalo.BEU2W3FinalProject.payload.UserPayloadDTO;
 import ygorgarofalo.BEU2W3FinalProject.repositories.UserRepo;
 
 @Service
@@ -37,19 +35,6 @@ public class UserService {
     public void findByIdAndDelete(long id) {
         User found = this.findById(id);
         userRepo.delete(found);
-    }
-
-
-    //PUT richiamata dal controller user su /me con auth principal
-    public User findByIdAndUpdate(long id, UserPayloadDTO body) {
-        User found = this.findById(id);
-        found.setSurname(body.surname());
-        found.setName(body.name());
-        found.setEmail(body.email());
-        found.setPassword(body.password());
-        found.setUsername(body.username());
-        found.setRole(Role.NORMAL_USER);
-        return userRepo.save(found);
     }
 
 

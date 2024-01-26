@@ -11,7 +11,10 @@ import ygorgarofalo.BEU2W3FinalProject.entities.Reservation;
 import ygorgarofalo.BEU2W3FinalProject.entities.User;
 import ygorgarofalo.BEU2W3FinalProject.exceptions.NotFoundException;
 import ygorgarofalo.BEU2W3FinalProject.payload.ReservationPayloadDTO;
+import ygorgarofalo.BEU2W3FinalProject.repositories.EventRepo;
 import ygorgarofalo.BEU2W3FinalProject.repositories.ReservationRepo;
+
+import java.time.LocalDate;
 
 @Service
 public class ReservationService {
@@ -25,6 +28,9 @@ public class ReservationService {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private EventRepo eventRepo;
 
 
     // get /reservations accessibile solo agli admin
@@ -65,6 +71,9 @@ public class ReservationService {
 
         reservation.setUser(userFound);
         reservation.setEvent(eventFound);
+        reservation.setReservationDate(LocalDate.now());
+        eventFound.setAvailableSeats(eventFound.getAvailableSeats() - 1);
+        eventRepo.save(eventFound);
         return reservationRepo.save(reservation);
 
     }

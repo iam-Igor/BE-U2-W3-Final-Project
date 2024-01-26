@@ -63,4 +63,15 @@ public class AuthService {
     }
 
 
+    public User findByIdAndUpdate(long id, UserPayloadDTO body) {
+        User found = userService.findById(id);
+        found.setSurname(body.surname());
+        found.setName(body.name());
+        found.setEmail(body.email());
+        found.setPassword(bcrypt.encode(body.password()));
+        found.setUsername(body.username());
+        found.setRole(Role.NORMAL_USER);
+        return userRepo.save(found);
+    }
+
 }
