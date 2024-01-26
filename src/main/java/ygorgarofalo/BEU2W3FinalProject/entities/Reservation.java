@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Setter
@@ -25,4 +27,6 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "event_id")
     private Event event;
+
+    private LocalDate reservationDate;
 }
