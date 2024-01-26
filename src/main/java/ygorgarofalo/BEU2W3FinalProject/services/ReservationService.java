@@ -69,4 +69,11 @@ public class ReservationService {
 
     }
 
+    // DELETE accessibile solo agli admin
+
+    public void deleteReservation(long id) {
+        Reservation resFound = this.findById(id);
+        reservationRepo.delete(resFound);
+    }
+
 }
