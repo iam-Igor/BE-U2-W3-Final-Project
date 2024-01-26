@@ -30,10 +30,10 @@ public class UserController {
     public User getProfile(@AuthenticationPrincipal User user) {
         return user;
     }
-    
+
 
     // per modificare il proprio profilo servirà inserire nell'header il token e un body di tipo
-    // user payloadDTO
+    // userPayloadDTO
 
     @PutMapping("/me")
     public User updateUser(@AuthenticationPrincipal User currentUser, @RequestBody UserPayloadDTO updatedUser, BindingResult bindingResult) {

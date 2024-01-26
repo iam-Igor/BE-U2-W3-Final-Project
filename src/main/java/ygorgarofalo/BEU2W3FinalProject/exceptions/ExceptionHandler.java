@@ -54,6 +54,7 @@ public class ExceptionHandler {
     public ErrorsBody handleGenericError(Exception ex) {
         ex.printStackTrace();
         return new ErrorsBody("Problema lato server.");
+        
     }
 
 }
