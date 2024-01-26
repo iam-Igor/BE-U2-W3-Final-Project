@@ -2,6 +2,7 @@ package ygorgarofalo.BEU2W3FinalProject.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -36,6 +37,7 @@ public class UserController {
     // userPayloadDTO
 
     @PutMapping("/me")
+    @ResponseStatus(HttpStatus.CREATED)
     public User updateUser(@AuthenticationPrincipal User currentUser, @RequestBody UserPayloadDTO updatedUser, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(bindingResult.getAllErrors());
@@ -46,6 +48,7 @@ public class UserController {
 
 
     @DeleteMapping("/me")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@AuthenticationPrincipal User currentUser) {
         userService.findByIdAndDelete(currentUser.getId());
     }

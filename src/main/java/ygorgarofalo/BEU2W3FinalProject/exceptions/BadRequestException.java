@@ -16,7 +16,6 @@ public class BadRequestException extends RuntimeException {
     }
 
     public BadRequestException(List<ObjectError> errorsList) {
-        super("Errori nel body della richiesta:");
         this.errorList = errorsList;
     }
 

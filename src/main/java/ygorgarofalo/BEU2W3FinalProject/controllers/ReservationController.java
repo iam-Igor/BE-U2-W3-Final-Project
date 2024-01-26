@@ -2,6 +2,7 @@ package ygorgarofalo.BEU2W3FinalProject.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ygorgarofalo.BEU2W3FinalProject.entities.Reservation;
@@ -36,6 +37,7 @@ public class ReservationController {
 
     // accessibile solo a manager
     @PutMapping("/{reserv_id}")
+    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('MANAGER')")
     public Reservation modifyReservation(@PathVariable long reserv_id, @RequestBody ReservationPayloadDTO payload) {
         return reservationService.findByIdAndUpdate(reserv_id, payload);
@@ -44,12 +46,14 @@ public class ReservationController {
 
     // accessibile a tutti
     @PostMapping("/public")
+    @ResponseStatus(HttpStatus.CREATED)
     public Reservation saveReservation(@RequestBody ReservationPayloadDTO payload) {
         return reservationService.saveReservation(payload);
     }
 
 
     @DeleteMapping("/{reserv_id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('MANAGER')")
     public void deletereservation(@PathVariable long reserv_id) {
         reservationService.deleteReservation(reserv_id);

@@ -35,6 +35,18 @@ public class EventService {
     }
 
 
+    //POST accessibile solo a MANAGER
+    public Event saveEvent(EventPayloadDTO payload) {
+        Event newEvent = new Event();
+        newEvent.setTitle(payload.title());
+        newEvent.setEventDate(payload.eventDate());
+        newEvent.setDescription(payload.description());
+        newEvent.setLocation(payload.location());
+        newEvent.setAvailableSeats(payload.availableSeats());
+        return eventRepo.save(newEvent);
+    }
+
+
     //GET accessibile a tutti
     public Event findById(long id) {
         return eventRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
