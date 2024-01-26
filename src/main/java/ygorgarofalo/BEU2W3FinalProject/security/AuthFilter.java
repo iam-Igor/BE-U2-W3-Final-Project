@@ -16,13 +16,14 @@ import ygorgarofalo.BEU2W3FinalProject.exceptions.UnauthorizedException;
 import ygorgarofalo.BEU2W3FinalProject.services.UserService;
 
 import java.io.IOException;
+import java.util.stream.Stream;
 
 @Component
 public class AuthFilter extends OncePerRequestFilter {
 
+    private static final AntPathMatcher pathMatcher = new AntPathMatcher();
     @Autowired
     private JWTTools jwtTools;
-
     @Autowired
     private UserService userService;
 
@@ -54,6 +55,9 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return new AntPathMatcher().match("/auth/**", request.getServletPath());
+        String[] allowedPaths = {"/auth/**", "/events/public/**"};
+
+        return Stream.of(allowedPaths)
+                .anyMatch(path -> pathMatcher.match(path, request.getServletPath()));
     }
 }

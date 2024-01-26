@@ -57,4 +57,5 @@ public class UserService {
         return userRepo.findByEmail(email).orElseThrow(() -> new NotFoundException("Utente con email " + email + " non trovato!"));
     }
 
+
 }

@@ -18,6 +18,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping
     @PreAuthorize("hasAuthority('MANAGER')")
     public Page<User> getUsers(@RequestParam(defaultValue = "0") int page,
                                @RequestParam(defaultValue = "10") int size,
@@ -29,12 +30,7 @@ public class UserController {
     public User getProfile(@AuthenticationPrincipal User user) {
         return user;
     }
-
-    @DeleteMapping("/me")
-    public void getMeAnDelete(@AuthenticationPrincipal User currentUser) {
-        userService.findByIdAndDelete(currentUser.getId());
-    }
-
+    
 
     // per modificare il proprio profilo servirà inserire nell'header il token e un body di tipo
     // user payloadDTO

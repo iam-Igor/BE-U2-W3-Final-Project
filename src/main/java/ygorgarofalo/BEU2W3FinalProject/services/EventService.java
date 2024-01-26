@@ -1,21 +1,30 @@
 package ygorgarofalo.BEU2W3FinalProject.services;
 
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ygorgarofalo.BEU2W3FinalProject.entities.Event;
 import ygorgarofalo.BEU2W3FinalProject.exceptions.NotFoundException;
+import ygorgarofalo.BEU2W3FinalProject.payload.EventPayloadDTO;
 import ygorgarofalo.BEU2W3FinalProject.repositories.EventRepo;
+
+import java.io.IOException;
 
 @Service
 public class EventService {
 
     @Autowired
     EventRepo eventRepo;
+
+    @Autowired
+    private Cloudinary cloudinary;
 
 
     //GET accessibile a tutti
@@ -33,13 +42,13 @@ public class EventService {
 
 
     //PUT accessibile solo da admin con token admin in header
-    public Event findByIdAndUpdate(long id, Event body) {
+    public Event findByIdAndUpdate(long id, EventPayloadDTO body) {
         Event found = this.findById(id);
-        found.setEventDate(body.getEventDate());
-        found.setDescription(body.getDescription());
-        found.setTitle(body.getTitle());
-        found.setLocation(body.getLocation());
-        found.setAvailableSeats(body.getAvailableSeats());
+        found.setEventDate(body.eventDate());
+        found.setDescription(body.description());
+        found.setTitle(body.title());
+        found.setLocation(body.location());
+        found.setAvailableSeats(body.availableSeats());
         return eventRepo.save(found);
 
     }
@@ -63,4 +72,17 @@ public class EventService {
         return eventRepo.findByLocation(location);
     }
 
+
+    public String uploadImage(MultipartFile file, long eventId) throws IOException {
+
+        Event found = this.findById(eventId);
+
+        String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+
+        found.setImageUrl(url);
+
+        eventRepo.save(found);
+
+        return url;
+    }
 }
