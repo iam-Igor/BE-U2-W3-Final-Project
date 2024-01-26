@@ -7,4 +7,9 @@ import ygorgarofalo.BEU2W3FinalProject.entities.Event;
 
 @Repository
 public interface EventRepo extends JpaRepository<Event, Long> {
+
+
+    Event findByTitle(String title);
+
+    Event findByLocation(String location);
 }
