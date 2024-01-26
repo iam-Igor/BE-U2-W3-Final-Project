@@ -72,19 +72,7 @@ public class EventService {
         eventRepo.delete(found);
     }
 
-
-    //GET accessibile a tutti
-    public Event findByTitle(String title) {
-        return eventRepo.findByTitle(title);
-    }
-
-
-    //GET accessibile a tutti
-    public Event findByLocation(String location) {
-        return eventRepo.findByLocation(location);
-    }
-
-
+    
     public String uploadImage(MultipartFile file, long eventId) throws IOException {
 
         Event found = this.findById(eventId);
